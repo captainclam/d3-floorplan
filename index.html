@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Floorplan Test</title>
+
+  <!-- // <script src="http://dciarletta.github.io/d3-floorplan/lib/d3/d3.v2.min.js"></script> -->
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+  <script src="src/floorplan.js"></script>
+  <script src="src/imagelayer.js"></script>
+<!--
+  <script src="src/pathplot.js"></script>
+  <script src="src/heatmap.js"></script>
+  <script src="src/overlays.js"></script>
+  <script src="src/vectorfield.js"></script>
+-->
+
+</head>
+<body>
+
+<div id="demo"></div>
+
+<script id="demo-code" type="text/javascript">
+var xscale = d3.scale.linear()
+               .domain([0,50.0])
+               .range([0,720]),
+    yscale = d3.scale.linear()
+               .domain([0,33.79])
+               .range([0,487]),
+    map = d3.floorplan().xScale(xscale).yScale(yscale),
+    imagelayer = d3.floorplan.imagelayer(),
+    // heatmap = d3.floorplan.heatmap(),
+    // vectorfield = d3.floorplan.vectorfield(),
+    // pathplot = d3.floorplan.pathplot(),
+    // overlays = d3.floorplan.overlays().editMode(true),
+    mapdata = {};
+
+mapdata[imagelayer.id()] = [{
+    url: 'Sample_Floorplan.jpg',
+    x: 0,
+    y: 0,
+    height: 33.79,
+    width: 50.0
+     }];
+
+map.addLayer(imagelayer)
+   // .addLayer(heatmap)
+   // .addLayer(vectorfield)
+   // .addLayer(pathplot)
+   // .addLayer(overlays);
+
+d3.json("demo-data.json", function(data) {
+  // mapdata[heatmap.id()] = data.heatmap;
+  // mapdata[overlays.id()] = data.overlays;
+  // mapdata[vectorfield.id()] = data.vectorfield;
+  // mapdata[pathplot.id()] = data.pathplot;
+  
+  d3.select("#demo").append("svg")
+    .attr("height", 487).attr("width",720)
+    .datum(mapdata).call(map);
+});
+</script>
+
+</body>
+</html>
